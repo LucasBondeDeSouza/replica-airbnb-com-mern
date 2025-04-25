@@ -13,13 +13,13 @@ export default ({ setUser }) => {
     
         if (name && email && password) {
             try {
-                const { data: userDoc } = await axios.post('/users/register', {
+                const { data: userDoc } = await axios.post('/users', {
                     name, email, password
                 });
                 setUser(userDoc);
                 setRedirect(true);
             } catch (err) {
-                alert(`Erro ao cadastrar: ${err.response?.data || err.message}`);
+                alert(`Erro ao cadastrar: ${JSON.stringify(err)}`);
             }
         } else {
             alert('Preencha todos os campos!');
