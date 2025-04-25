@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom"
 import { Bars3Icon, MagnifyingGlassIcon, UserCircleIcon } from '@heroicons/react/24/solid'
 
-export default () => {
+export default ({ user }) => {
 
     return (
         <header className="shadow-md">
@@ -23,10 +23,11 @@ export default () => {
                     </div>
                 </Link>
 
-                <Link to="/login" className="flex items-center border border-gray-300 pr-4 pl-6 py-2 rounded-full gap-2 shadow-md">
+                <Link to={user ? "/account" : "/login"} className="flex items-center border border-gray-300 pr-4 pl-6 py-2 rounded-full gap-2 shadow-md">
                     <Bars3Icon className="size-5 text-gray-600" />
                     <UserCircleIcon className="size-8 text-gray-600" />
-                    <p className="max-w-20 sm:max-w-32 truncate">Lucas Bonde</p>
+
+                    {user ? <p className="max-w-20 sm:max-w-32 truncate">{user.name}</p> : <></>}
                 </Link>
             </div>
         </header>
