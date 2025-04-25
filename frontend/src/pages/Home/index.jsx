@@ -5,7 +5,7 @@ export default () => {
 
     return (
         <section>
-            <div className="grid grid-cols-[repeat(auto-fit,minmax(225px,1fr))] mx-auto max-w-7xl p-8 gap-8">
+            <div className="mx-auto grid max-w-full grid-cols-[repeat(auto-fit,minmax(225px,1fr))] gap-8 p-8 lg:max-w-7xl">
                 <Item />
                 <Item />
                 <Item />
