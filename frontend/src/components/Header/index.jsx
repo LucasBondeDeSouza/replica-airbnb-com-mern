@@ -1,8 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom"
 import { Bars3Icon, MagnifyingGlassIcon, UserCircleIcon } from '@heroicons/react/24/solid'
+import { useUserContext } from "../../context/UserContext";
 
-export default ({ user }) => {
+export default () => {
+    const { user } = useUserContext()
 
     return (
         <header className="shadow-md">
@@ -23,7 +25,7 @@ export default ({ user }) => {
                     </div>
                 </Link>
 
-                <Link to={user ? "/account" : "/login"} className="flex items-center border border-gray-300 pr-4 pl-6 py-2 rounded-full gap-2 shadow-md">
+                <Link to={user ? "/account/profile" : "/login"} className="flex items-center border border-gray-300 pr-4 pl-6 py-2 rounded-full gap-2 shadow-md">
                     <Bars3Icon className="size-5 text-gray-600" />
                     <UserCircleIcon className="size-8 text-gray-600" />
 
