@@ -63,7 +63,7 @@ export default () => {
                     <label htmlFor="file" className="flex gap-2 items-center justify-center border border-gray-300 rounded-2xl aspect-square cursor-pointer">
                         <input type="file" id="file" className="hidden" />
                         <ArrowUpTrayIcon className="size-6" />
-                        Upload
+                        <span className="hidden md:block">Upload</span>
                     </label>
                 </div>
             </div>
