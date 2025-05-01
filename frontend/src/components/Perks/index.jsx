@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { FaceSmileIcon, RadioIcon, ShieldCheckIcon, TruckIcon, TvIcon, WifiIcon } from "@heroicons/react/24/outline";
 
-export default () => {
-    const [perks, setPerks] = useState([])
+export default ({ perks, setPerks }) => {
 
     const handleClick = (target) => {
         const newPerks = target.checked 
@@ -10,7 +9,6 @@ export default () => {
             : [...perks].filter((perk) => perk !== target.value)
         
         setPerks(newPerks)
-        console.log(perks)
     }
 
     return (

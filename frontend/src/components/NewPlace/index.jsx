@@ -1,21 +1,42 @@
 import React, { useState } from "react";
+import axios from "axios";
 import { ArrowUpTrayIcon } from "@heroicons/react/24/outline";
 import Perks from "../Perks";
+import { Navigate } from "react-router-dom"
+import { useUserContext } from "../../context/UserContext"
 
 export default () => {
+    const { user } = useUserContext()
     const [title, setTitle] = useState("")
     const [city, setCity] = useState("")
-    const [photos, setPhotos] = useState("")
+    const [photos, setPhotos] = useState([])
+    const [perks, setPerks] = useState([])
     const [description, setDescription] = useState("")
     const [extras, setExtras] = useState("")
     const [price, setPrice] = useState("")
     const [checkin, setCheckin] = useState("")
     const [checkout, setCheckout] = useState("")
     const [guests, setGuests] = useState("")
+    const [redirect, setRedirect] = useState(false)
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
+
+        if (title && city && description && price && checkin && checkout && guests) {
+            try {
+                const newPlace = await axios.post('/places', {
+                    owner: user._id, title, city, photos, description, extras, perks, price, checkin, checkout, guests,
+                })
+                console.log(newPlace)
+                setRedirect(true)
+            } catch (err) {
+                console.error(JSON.stringify(err))
+                alert('Deu erro ao criar um novo lugar!')
+            }
+        }
     }
+
+    if (redirect) return <Navigate to="/account/places" />
 
     return (
         <form onSubmit={handleSubmit} className="w-full px-8 flex flex-col gap-6">
@@ -82,7 +103,7 @@ export default () => {
             <div className="flex flex-col gap-1">
                 <label htmlFor="perks" className="text-2xl font-bold ml-2">Comodidades</label>
 
-                <Perks />
+                <Perks perks={perks} setPerks={setPerks} />
             </div>
 
             <div className="flex flex-col gap-1">
