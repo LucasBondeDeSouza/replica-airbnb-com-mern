@@ -6,7 +6,7 @@ import { useUserContext } from "../../context/UserContext";
 
 export default () => {
     const { subpage } = useParams()
-    const { user } = useUserContext() 
+    const { user, ready } = useUserContext() 
 
     const buttonClass = (button) => {
         let finalClass = "hover:bg-primary-400 cursor-pointer rounded-full px-4 py-2 transition hover:text-white"
@@ -16,7 +16,7 @@ export default () => {
         return finalClass
     }
 
-    if (!user) return <Navigate to="/login" />
+    if (!user && ready) return <Navigate to="/login" />
 
     return (
         <section className="p-8">

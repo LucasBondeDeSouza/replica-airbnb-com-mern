@@ -1,14 +1,16 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { ArrowUpTrayIcon } from "@heroicons/react/24/outline";
+
 import Perks from "../Perks";
 import { Navigate } from "react-router-dom"
 import { useUserContext } from "../../context/UserContext"
+import PhotoUploader from "../PhotoUploader";
 
 export default () => {
     const { user } = useUserContext()
     const [title, setTitle] = useState("")
     const [city, setCity] = useState("")
+    const [photoLink, setPhotoLink] = useState("")
     const [photos, setPhotos] = useState([])
     const [perks, setPerks] = useState([])
     const [description, setDescription] = useState("")
@@ -27,7 +29,7 @@ export default () => {
                 const newPlace = await axios.post('/places', {
                     owner: user._id, title, city, photos, description, extras, perks, price, checkin, checkout, guests,
                 })
-                console.log(newPlace)
+                
                 setRedirect(true)
             } catch (err) {
                 console.error(JSON.stringify(err))
@@ -64,30 +66,12 @@ export default () => {
                 />
             </div>
 
-            <div className="flex flex-col gap-1">
-                <label htmlFor="photos" className="text-2xl font-bold ml-2">Fotos</label>
-                
-                <div className="flex gap-2">
-                    <input 
-                        type="text" 
-                        placeholder="Adicione uma foto pelo link" 
-                        className="rounded-full border border-gray-300 py-2 px-4 grow"
-                        id="photos"
-                        value={photos}
-                        onChange={(e) => setPhotos(e.target.value)}
-                    />
-
-                    <button className="rounded-full border border-gray-300 px-4 py-2 bg-gray-100 hover:bg-gray-200 cursor-pointer transition">Enviar Foto</button>
-                </div>
-
-                <div className="grid grid-cols-5 gap-4 mt-2">
-                    <label htmlFor="file" className="flex gap-2 items-center justify-center border border-gray-300 rounded-2xl aspect-square cursor-pointer">
-                        <input type="file" id="file" className="hidden" />
-                        <ArrowUpTrayIcon className="size-6" />
-                        <span className="hidden md:block">Upload</span>
-                    </label>
-                </div>
-            </div>
+            <PhotoUploader 
+                photoLink={photoLink} 
+                setPhotoLink={setPhotoLink} 
+                photos={photos} 
+                setPhotos={setPhotos} 
+            />
 
             <div className="flex flex-col gap-1">
                 <label htmlFor="description" className="text-2xl font-bold ml-2">Descrição</label>
