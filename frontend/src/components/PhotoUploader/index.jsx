@@ -9,13 +9,35 @@ export default ({ photoLink, setPhotoLink, photos, setPhotos }) => {
         e.preventDefault()
 
         if (photoLink) {
-            const { data: filename } = await axios.post('/places/upload/link', {
-                link: photoLink,
-            })
+            try {
+                const { data: filename } = await axios.post('/places/upload/link', {
+                    link: photoLink,
+                })
 
-            setPhotos((prevValue) => [...prevValue, filename])
+                setPhotos((prevValue) => [...prevValue, filename])
+            } catch (err) {
+                alert('Deu erro na hora do upload por link', JSON.stringify(err))
+            }
         } else {
             alert('Não existe nenhum link a ser enviado!')
+        }
+    }
+
+    const uploadPhoto = async (e) => {
+        const { files } = e.target
+        const formData = new FormData()
+        const filesArray = [...files]
+
+        filesArray.forEach((file) => formData.append("files", file))
+
+        try {
+            const { data: urlArray } = await axios.post('/places/upload', formData, {
+                headers: { "Content-Type": "multipart/form-data" },
+            })
+
+            setPhotos((prevValue) => [...prevValue, ...urlArray])
+        } catch (err) {
+            alert('Deu erro na hora do upload', JSON.stringify(err))
         }
     }
 
@@ -45,13 +67,19 @@ export default ({ photoLink, setPhotoLink, photos, setPhotos }) => {
                     <img 
                         key={photo}
                         className="aspect-square object-cover rounded-2xl"
-                        src={`${axios.defaults.baseURL}/tmp/${photo}`}
+                        src={`${photo}`}
                         alt="Imagens do lugar" 
                     />
                 ))}
 
                 <label htmlFor="file" className="flex gap-2 items-center justify-center border border-gray-300 rounded-2xl aspect-square cursor-pointer">
-                    <input type="file" id="file" className="hidden" />
+                    <input 
+                        type="file" 
+                        id="file" 
+                        className="hidden" 
+                        multiple
+                        onChange={uploadPhoto}
+                    />
                     <ArrowUpTrayIcon className="size-6" />
                     <span className="hidden md:block">Upload</span>
                 </label>
