@@ -6,6 +6,58 @@ import { sendToS3, downloadImage, uploadImage } from "./controller.js";
 
 const router = Router()
 
+router.get('/', async (req, res) => {
+    try {
+        const placeDocs = await Place.find()
+
+        res.json(placeDocs)
+    } catch (err) {
+        console.error(err)
+        res.status(500).json("Deu erro ao encontrar as acomodações")
+    }
+})
+
+router.get('/owner', async (req, res) => {
+    db()
+    try {
+        const { _id } = await JWTVerify(req)
+
+        try {
+            const placeDocs = await Place.find({ owner: _id })
+
+            res.json(placeDocs)
+        } catch (err) {
+            console.error(err)
+            res.status(500).json("Deu erro ao encontrar as acomodações")
+        }
+    } catch (err) {
+        console.error(err)
+        res.status(500).json("Deu erro ao verificar o usuário")
+    }
+})
+
+router.get('/:id', async (req, res) => {
+    db()
+
+    const { id } = req.params
+
+    try {
+        const { _id } = await JWTVerify(req)
+
+        try {
+            const placeDocs = await Place.find({ owner: _id })
+
+            res.json(placeDocs)
+        } catch (err) {
+            console.error(err)
+            res.status(500).json("Deu erro ao encontrar as acomodações")
+        }
+    } catch (err) {
+        console.error(err)
+        res.status(500).json("Deu erro ao verificar o usuário")
+    }
+})
+
 router.post('/', async (req, res) => {
     db()
     const {

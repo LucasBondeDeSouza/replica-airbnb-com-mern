@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import axios from "axios";
 
 import Perks from "../Perks";
-import { Navigate } from "react-router-dom"
+import { Navigate, useParams } from "react-router-dom"
 import { useUserContext } from "../../context/UserContext"
 import PhotoUploader from "../PhotoUploader";
 
 export default () => {
+    const { id } = useParams()
     const { user } = useUserContext()
     const [title, setTitle] = useState("")
     const [city, setCity] = useState("")
@@ -21,10 +22,14 @@ export default () => {
     const [guests, setGuests] = useState("")
     const [redirect, setRedirect] = useState(false)
 
+    if (id) {
+        
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        if (title && city && description && price && checkin && checkout && guests) {
+        if (title && city && photos.length > 0 && description && price && checkin && checkout && guests) {
             try {
                 const newPlace = await axios.post('/places', {
                     owner: user._id, title, city, photos, description, extras, perks, price, checkin, checkout, guests,
