@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 
-import { ArrowUpTrayIcon } from "@heroicons/react/24/outline";
+import { ArrowUpTrayIcon, StarIcon, TrashIcon } from "@heroicons/react/24/outline";
 
 export default ({ photoLink, setPhotoLink, photos, setPhotos }) => {
 
@@ -41,6 +41,16 @@ export default ({ photoLink, setPhotoLink, photos, setPhotos }) => {
         }
     }
 
+    const deletePhoto = (fileURL) => {
+        const newPhotos = photos.filter(photo => photo !== fileURL)
+        setPhotos(newPhotos)
+    }
+
+    const promotePhoto = (fileURL) => {
+        const newPhotos = [fileURL, ...photos.filter(photo => photo !== fileURL)]
+        setPhotos(newPhotos)
+    }
+
     return (
         <div className="flex flex-col gap-1">
             <label htmlFor="photos" className="text-2xl font-bold ml-2">Fotos</label>
@@ -64,12 +74,30 @@ export default ({ photoLink, setPhotoLink, photos, setPhotos }) => {
     
             <div className="grid grid-cols-5 gap-4 mt-2">
                 {photos.map((photo) => (
-                    <img 
-                        key={photo}
-                        className="aspect-square object-cover rounded-2xl"
-                        src={`${photo}`}
-                        alt="Imagens do lugar" 
-                    />
+                    <div className="relative">
+                        <img 
+                            key={photo}
+                            className="aspect-square object-cover rounded-2xl"
+                            src={`${photo}`}
+                            alt="Imagens do lugar" 
+                        />
+
+                        <div className="flex absolute right-2 bottom-2 gap-1">
+                            <div 
+                                onClick={() => promotePhoto(photo)}
+                                className="bg-gray-100 opacity-75 rounded-full p-2 cursor-pointer transition hover:bg-primary-400 hover:text-white"
+                            >
+                                <StarIcon className="size-6" />
+                            </div>
+
+                            <div 
+                                onClick={() => deletePhoto(photo)}
+                                className="bg-gray-100 opacity-75 rounded-full p-2 cursor-pointer transition hover:bg-primary-400 hover:text-white"
+                            >
+                                <TrashIcon className="size-6" />
+                            </div>
+                        </div>
+                    </div>
                 ))}
 
                 <label htmlFor="file" className="flex gap-2 items-center justify-center border border-gray-300 rounded-2xl aspect-square cursor-pointer">

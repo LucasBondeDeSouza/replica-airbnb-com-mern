@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 import Perks from "../Perks";
@@ -22,24 +22,55 @@ export default () => {
     const [guests, setGuests] = useState("")
     const [redirect, setRedirect] = useState(false)
 
-    if (id) {
-        
-    }
+    useEffect(() => {
+        if (id) {
+            const axiosGet = async () => {
+                const { data } = await axios.get(`/places/${id}`)
+                
+                setTitle(data.title)
+                setCity(data.city)
+                setPhotos(data.photos)
+                setPerks(data.perks)
+                setDescription(data.description)
+                setExtras(data.extras)
+                setPrice(data.price)
+                setCheckin(data.checkin)
+                setCheckout(data.checkout)
+                setGuests(data.guests)
+            }
+
+            axiosGet()
+        }
+    }, [])
 
     const handleSubmit = async (e) => {
         e.preventDefault()
 
         if (title && city && photos.length > 0 && description && price && checkin && checkout && guests) {
-            try {
-                const newPlace = await axios.post('/places', {
-                    owner: user._id, title, city, photos, description, extras, perks, price, checkin, checkout, guests,
-                })
-                
-                setRedirect(true)
-            } catch (err) {
-                console.error(JSON.stringify(err))
-                alert('Deu erro ao criar um novo lugar!')
+            if (id) {
+                try {
+                    const modifiedPlacePlace = await axios.put(`/places/${id}`, {
+                        title, city, photos, description, extras, perks, price, checkin, checkout, guests,
+                    })
+                } catch (err) {
+                    console.error(JSON.stringify(err))
+                    alert("Deu erro ao tentar atualizar o lugar")
+                }
+            } else {
+                try {
+                    const newPlace = await axios.post("/places", {
+                        owner: user._id, title, city, photos, description, extras, perks, price, checkin, checkout, guests,
+                    })
+                } catch (err) {
+                    console.error(JSON.stringify(err))
+                    alert("Deu erro ao tentar criar um novo lugar")
+                }
             }
+            
+            setRedirect(true)
+        
+        } else {
+            alert("Preencha todas as informações antes de enviar")
         }
     }
 

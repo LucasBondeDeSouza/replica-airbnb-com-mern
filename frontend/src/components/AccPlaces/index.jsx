@@ -30,7 +30,11 @@ export default () => {
                     </Link>
 
                     {places.map(place => (
-                        <Link to={`/account/places/new/${place._id}`} className="bg-gray-100 rounded-2xl p-6 flex items-center gap-6">
+                        <Link 
+                            to={`/account/places/new/${place._id}`} 
+                            className="bg-gray-100 rounded-2xl p-6 flex items-center gap-6"
+                            key={place._id}
+                        >
                             <img 
                                 className="max-w-56 object-center aspect-square rounded-2xl" 
                                 src={place.photos[0]} 

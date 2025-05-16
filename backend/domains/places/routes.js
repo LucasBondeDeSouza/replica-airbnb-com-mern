@@ -39,22 +39,57 @@ router.get('/owner', async (req, res) => {
 router.get('/:id', async (req, res) => {
     db()
 
-    const { id } = req.params
+    const { id: _id } = req.params
 
     try {
-        const { _id } = await JWTVerify(req)
+        const placeDoc = await Place.findOne({ _id })
 
-        try {
-            const placeDocs = await Place.find({ owner: _id })
-
-            res.json(placeDocs)
-        } catch (err) {
-            console.error(err)
-            res.status(500).json("Deu erro ao encontrar as acomodações")
-        }
+        res.json(placeDoc)
     } catch (err) {
         console.error(err)
-        res.status(500).json("Deu erro ao verificar o usuário")
+        res.status(500).json("Deu erro ao encontrar a acomodação")
+    }
+})
+
+router.put('/:id', async (req, res) => {
+    db()
+
+    const { id: _id } = req.params
+
+    const {
+        title,
+        city,
+        photos,
+        description,
+        extras,
+        perks,
+        price,
+        checkin,
+        checkout,
+        guests,
+    } = req.body
+
+    try {
+        const updatedPlaceDoc = await Place.findOneAndUpdate(
+            { _id },
+            {
+                title,
+                city,
+                photos,
+                description,
+                extras,
+                perks,
+                price,
+                checkin,
+                checkout,
+                guests
+            }
+        )
+
+        res.json(updatedPlaceDoc)
+    } catch (err) {
+        console.log(err)
+        res.status(500).json("Deu erro ao atualizar a acomodação")
     }
 })
 
