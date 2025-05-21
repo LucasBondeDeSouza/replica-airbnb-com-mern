@@ -1,10 +1,13 @@
 import { MapPinIcon, SquaresPlusIcon } from "@heroicons/react/24/outline"
 import axios from "axios"
 import React, { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
+import { useUserContext } from "../../context/UserContext"
+import Perk from "../../components/Perk"
 
 export default () => {
     const { id } = useParams()
+    const { user } = useUserContext()
     const [place, setPlace] = useState(null)
     const [overlay, setOverlay] = useState(false)
     const [checkin, setCheckin] = useState("")
@@ -28,15 +31,25 @@ export default () => {
             : document.body.classList.remove("overflow-hidden")
     }, [overlay])
 
+    const handleBooking = (e) => {
+        e.preventDefault()
+
+        if (checkin && checkout && guests) {
+
+        } else {
+            alert("Preencha todas as informações antes de fazer uma reserva!")
+        }
+    }
+
     if (!place) return <></>
 
     return (
         <section>
-            <div className="flex flex-col mx-auto max-w-7xl gap-6 p-8">
+            <div className="flex flex-col mx-auto max-w-7xl gap-4 sm:gap-6 p-4 sm:p-8">
 
                 {/* Titulos */}
-                <div className="flex flex-col gap-1">
-                    <div className="text-3xl font-bold">{place.title}</div>
+                <div className="flex flex-col sm:gap-1">
+                    <div className="text-xl sm:text-3xl font-bold">{place.title}</div>
 
                     <div className="flex items-center gap-1">
                         <MapPinIcon className="size-5" />
@@ -45,12 +58,12 @@ export default () => {
                 </div>
 
                 {/* Grade de Imagens */}
-                <div className="relative grid grid-cols-[2fr_1fr] grid-rows-2 aspect-[3/2] rounded-2xl overflow-hidden gap-4">
+                <div className="relative grid sm:grid-cols-[2fr_1fr] sm:grid-rows-2 aspect-square sm:aspect-[3/2] rounded-2xl overflow-hidden gap-4">
                     {place.photos
                         .filter((photo, index) => index < 3)
                         .map((photo, index) => (
                             <img 
-                                className={`${index === 0 && 'row-span-2 h-full'} aspect-square w-full object-cover transition hover:opacity-75 cursor-pointer`}
+                                className={`${index === 0 && 'row-span-2 h-full object-center'} aspect-square w-full sm:object-cover transition hover:opacity-75 cursor-pointer`}
                                 src={photo} 
                                 alt="Imagem da acomodação"
                                 onClick={() => setOverlay(true)}
@@ -68,40 +81,54 @@ export default () => {
                 </div>
 
                 {/* Colunas */}
-                <div className="grid grid-cols-2">
-                    <div className="p-6 flex flex-col gap-5">
+                <div className="grid grid-cols-1 md:grid-cols-2">
+                    <div className="order-2 md:order-none p-6 flex flex-col gap-5">
                         <div className="flex flex-col gap-2">
-                            <p className="text-2xl font-bold">Descrição</p>
+                            <p className="text-lg sm:text-2xl font-bold">Descrição</p>
                             <p>{place.description}</p>
                         </div>
 
                         <div className="flex flex-col gap-2">
-                            <p className="text-2xl font-bold">Horários e Restrições</p>
+                            <p className="text-lg sm:text-2xl font-bold">Horários e Restrições</p>
                             <div className="">
                                 <p>Checkin: {place.checkin}</p>
                                 <p>Checkout: {place.checkout}</p>
                                 <p>Máximo de Convidados: {place.guests}</p>
                             </div>
                         </div>
+
+                        <div className="flex flex-col gap-2">
+                            <p className="text-lg sm:text-2xl font-bold">Diferenciais</p>
+
+                            <div className="flex flex-col gap-2">
+                                {place.perks.map((perk) => (
+                                    <div className="flex items-center gap-2">
+                                        <Perk perk={perk} />
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
                     </div>
 
-                    <form className="flex flex-col gap-4 justify-self-center self-center border border-gray-300 rounded-2xl px-8 py-4">
-                        <p className="text-2xl font-bold text-center">Preço: R$ {place.price} por noite</p>
+                    <form className="order-1 md:order-none flex flex-col gap-4 justify-self-center self-center border border-gray-300 rounded-2xl px-4 sm:px-8 py-3 sm:py-4">
+                        <p className="text-lg sm:text-2xl font-bold text-center">Preço: R$ {place.price} por noite</p>
 
                         {/* Checkin e Checkout */}
-                        <div className="flex">
-                            <div className="border border-gray-300 rounded-tl-2xl rounded-bl-2xl px-4 py-2">
+                        <div className="flex flex-col sm:flex-row">
+                            <div className="border border-gray-300 rounded-tl-2xl rounded-tr-2xl sm:rounded-tr-none sm:rounded-bl-2xl px-4 py-2">
                                 <p className="font-bold">Checkin</p>
                                 <input 
+                                    className="w-full sm:w-auto"
                                     type="date" 
                                     value={checkin}
                                     onChange={(e) => setCheckin(e.target.value)}
                                 />
                             </div>
 
-                            <div className="border border-l-0 border-gray-300 rounded-tr-2xl rounded-br-2xl px-4 py-2">
+                            <div className="border border-t-0 sm:border-t sm:border-l-0 border-gray-300 rounded-bl-2xl sm:rounded-tr-2xl sm:rounded-bl-none rounded-br-2xl px-4 py-2">
                                 <p className="font-bold">Checkout</p>
                                 <input 
+                                    className="w-full sm:w-auto"
                                     type="date" 
                                     value={checkout}
                                     onChange={(e) => setCheckout(e.target.value)}
@@ -120,19 +147,33 @@ export default () => {
                                 onChange={(e) => setGuests(e.target.value)} 
                             />
                         </div>
+
+                        {user ? (
+                            <button 
+                                className="text-center bg-primary-400 w-full cursor-pointer rounded-full border border-gray-300 px-4 py-2 font-bold text-white"
+                                onClick={handleBooking}
+                            >
+                                Reservar
+                            </button>
+                        ) : (
+                            <Link to="/login" className="text-center bg-primary-400 w-full cursor-pointer rounded-full border border-gray-300 px-4 py-2 font-bold text-white">
+                                Faça seu Login
+                            </Link>
+                        )}
+                        
                     </form>
                 </div>
 
                 {/* Extras */}
                 <div className="flex flex-col gap-2 rounded-2xl bg-gray-100 p-6">
-                    <p className="text-2xl font-bold">Informações Extras</p>
+                    <p className="text-lg sm:text-2xl font-bold">Informações Extras</p>
                     <p>{place.extras}</p>
                 </div>
 
                 {/* Overlay */}
                 <div className={`${overlay ? 'flex' : 'hidden'} items-start bg-black inset-0 overflow-y-auto fixed`}>
                     <div className="mx-auto flex max-w-7xl flex-col gap-8 p-8">
-                        <div className="grid aspect-[3/2] grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             {place.photos.map((photo, index) => (
                                 <img
                                     className="aspect-square w-full object-cover"

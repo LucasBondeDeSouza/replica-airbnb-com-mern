@@ -1,5 +1,5 @@
 import React from "react";
-import { FaceSmileIcon, RadioIcon, ShieldCheckIcon, TruckIcon, TvIcon, WifiIcon } from "@heroicons/react/24/outline";
+import Perk from "../Perk";
 
 export default ({ perks, setPerks }) => {
 
@@ -21,8 +21,7 @@ export default ({ perks, setPerks }) => {
                     checked={perks.includes("wifi")}
                     onChange={(e) => handleClick(e.target)}
                 />
-                <WifiIcon className="size-6" />
-                Wifi
+                <Perk perk={"wifi"} />
             </label>
 
             <label htmlFor="parking" className="flex gap-2 items-center px-4 py-3 rounded-2xl border border-gray-300 cursor-pointer">
@@ -33,8 +32,7 @@ export default ({ perks, setPerks }) => {
                     checked={perks.includes("parking")}
                     onChange={(e) => handleClick(e.target)}
                 />
-                <TruckIcon className="size-6" />
-                Estacionameto gratuito
+                <Perk perk={"parking"} />
             </label>
 
             <label htmlFor="tv" className="flex gap-2 items-center px-4 py-3 rounded-2xl border border-gray-300 cursor-pointer">
@@ -45,8 +43,7 @@ export default ({ perks, setPerks }) => {
                     checked={perks.includes("tv")}
                     onChange={(e) => handleClick(e.target)}
                 />
-                <TvIcon className="size-6" />
-                TV
+                <Perk perk={"tv"} />
             </label>
 
             <label htmlFor="radio" className="flex gap-2 items-center px-4 py-3 rounded-2xl border border-gray-300 cursor-pointer">
@@ -57,8 +54,7 @@ export default ({ perks, setPerks }) => {
                     checked={perks.includes("radio")}
                     onChange={(e) => handleClick(e.target)}
                 />
-                <RadioIcon className="size-6" />
-                Rádio
+                <Perk perk={"radio"} />
             </label>
 
             <label htmlFor="pets" className="flex gap-2 items-center px-4 py-3 rounded-2xl border border-gray-300 cursor-pointer">
@@ -69,8 +65,7 @@ export default ({ perks, setPerks }) => {
                     checked={perks.includes("pets")}
                     onChange={(e) => handleClick(e.target)}
                 />
-                <FaceSmileIcon className="size-6" />
-                Pets
+                <Perk perk={"pets"} />
             </label>
 
             <label htmlFor="entrance" className="flex gap-2 items-center px-4 py-3 rounded-2xl border border-gray-300 cursor-pointer">
@@ -81,8 +76,7 @@ export default ({ perks, setPerks }) => {
                     checked={perks.includes("entrance")}
                     onChange={(e) => handleClick(e.target)}
                 />
-                <ShieldCheckIcon className="size-6" />
-                Entrada Privada
+                <Perk perk={"entrance"} />
             </label>
         </div>
     )
