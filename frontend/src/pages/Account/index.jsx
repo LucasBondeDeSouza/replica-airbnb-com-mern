@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import AccProfile from "../../components/AccProfile";
+import AccBookings from "../../components/AccBookings";
 import AccPlaces from "../../components/AccPlaces";
 import { useUserContext } from "../../context/UserContext";
 
@@ -28,6 +29,7 @@ export default () => {
                 </div>
 
                 {subpage === "profile" && <AccProfile />}
+                {subpage === "bookings" && <AccBookings />}
                 {subpage === "places" && <AccPlaces />}
             </div>
         </section>
