@@ -3,7 +3,7 @@ import cors from "cors"
 import cookieParser from "cookie-parser"
 import routes from "./routes/index.js"
 import { fileURLToPath } from "url"
-import path, { dirname } from "path"
+import { dirname } from "path"
 
 export const app = express()
 
