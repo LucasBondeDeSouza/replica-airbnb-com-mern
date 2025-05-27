@@ -19,9 +19,5 @@ app.use(cors({
 }))
 
 app.use("/tmp", express.static(__dirname + '/tmp'))
-app.use(express.static(path.join(__dirname, '../frontend/dist')))
-app.use('/api/', routes)
 
-app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, '../frontend/dist/index.html'))
-})
+app.use(routes)
