@@ -10,7 +10,11 @@ import Register from './pages/Register';
 import Account from './pages/Account';
 import Place from './pages/Place';
 
-axios.defaults.baseURL = import.meta.env.VITE_AXIOS_BASE_URL
+axios.defaults.baseURL = 
+  import.meta.env.MODE === "devlopment" 
+  ? "http://localhost:3000/api" 
+  : "http://localhost:3000/api" 
+
 axios.defaults.withCredentials = true
 
 export default () => {
