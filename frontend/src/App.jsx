@@ -14,7 +14,7 @@ import NotFound from './pages/NotFound';
 axios.defaults.baseURL = 
   import.meta.env.MODE === "devlopment" 
   ? "http://localhost:3000" 
-  : "http://localhost:3000" 
+  : "https://hashbnb-server.vercel.app" 
 
 axios.defaults.withCredentials = true
 
