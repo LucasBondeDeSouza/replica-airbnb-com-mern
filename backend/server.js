@@ -13,21 +13,10 @@ export const __dirname = dirname(__filename)
 app.use(express.json())
 app.use(cookieParser())
 
-const allowedOrigins = [
-  'http://localhost:5173',
-  'https://hashbnb.vercel.app'
-];
-
 app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true
-}));
+    origin: 'http://localhost:5173',
+    credentials: true,
+}))
 
 app.use("/tmp", express.static(__dirname + '/tmp'))
 

@@ -11,7 +11,10 @@ import Account from './pages/Account';
 import Place from './pages/Place';
 import NotFound from './pages/NotFound';
 
-axios.defaults.baseURL = "https://hashbnb-server.vercel.app" 
+axios.defaults.baseURL = 
+  import.meta.env.MODE === "devlopment" 
+  ? "http://localhost:3000" 
+  : "https://hashbnb-server.vercel.app" 
 
 axios.defaults.withCredentials = true
 
