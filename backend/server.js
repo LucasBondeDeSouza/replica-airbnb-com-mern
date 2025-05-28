@@ -13,7 +13,10 @@ export const __dirname = dirname(__filename)
 app.use(express.json())
 app.use(cookieParser())
 
-app.use(cors())
+app.use(cors({
+    origin: 'https://hashbnb.vercel.app',
+    credentials: true,
+}))
 
 app.use("/tmp", express.static(__dirname + '/tmp'))
 app.use(express.static(path.join(__dirname, '../frontend/dist')))
