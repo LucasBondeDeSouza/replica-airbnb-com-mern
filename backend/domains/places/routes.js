@@ -7,6 +7,7 @@ import { sendToS3, downloadImage, uploadImage } from "./controller.js";
 const router = Router()
 
 router.get('/', async (req, res) => {
+    db()
     try {
         const placeDocs = await Place.find()
 
