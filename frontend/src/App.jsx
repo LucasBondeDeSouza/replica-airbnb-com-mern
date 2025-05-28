@@ -14,7 +14,7 @@ import NotFound from './pages/NotFound';
 axios.defaults.baseURL = 
   import.meta.env.MODE === 'development'
     ? "http://localhost:3000/api"
-    : "https://hashbnb.onrender.com/api"
+    : "https://hashbnb-server.vercel.app/api"
 
 axios.defaults.withCredentials = true
 
