@@ -3,7 +3,7 @@ import cors from "cors"
 import cookieParser from "cookie-parser"
 import routes from "./routes/index.js"
 import { fileURLToPath } from "url"
-import { dirname } from "path"
+import path, { dirname } from "path"
 
 export const app = express()
 
@@ -14,10 +14,11 @@ app.use(express.json())
 app.use(cookieParser())
 
 app.use(cors({
-    origin: 'https://hashbnb.vercel.app',
+    origin: 'http://localhost:5173',
     credentials: true,
 }))
 
 app.use("/tmp", express.static(__dirname + '/tmp'))
+app.use(express.static(path.join(__dirname, '../frontend/dist')))
 
-app.use(routes)
+app.use("/api", routes)
