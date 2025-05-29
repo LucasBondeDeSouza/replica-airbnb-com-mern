@@ -23,12 +23,17 @@ router.get('/owner', async (req, res) => {
     try {
         const { _id } = await JWTVerify(req)
 
-        const placeDocs = await Place.find({ owner: _id })
+        try {
+            const placeDocs = await Place.find({ owner: _id })
 
-        res.json(placeDocs)
+            res.json(placeDocs)
+        } catch (err) {
+            console.error(err)
+            res.status(500).json("Deu erro ao encontrar as acomodações")
+        }
     } catch (err) {
         console.error(err)
-        res.status(401).json("Usuário não autenticado")
+        res.status(500).json("Deu erro ao verificar o usuário")
     }
 })
 
