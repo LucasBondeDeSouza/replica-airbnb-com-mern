@@ -5,7 +5,6 @@ import { JWTVerify } from "../../utils/jwt.js"
 
 const router = Router()
 
-// Rota para criar nova reserva
 router.post("/", async (req, res) => {
     db()
 
@@ -30,29 +29,22 @@ router.post("/", async (req, res) => {
     }
 })
 
-// Rota para buscar reservas do usuário autenticado
 router.get("/owner", async (req, res) => {
     db()
 
     try {
-        const userInfo = await JWTVerify(req)
-
-        if (!userInfo) {
-            return res.status(401).json("Token não encontrado ou inválido")
-        }
-
-        const { _id: id } = userInfo
+        const { _id: id } = await JWTVerify(req)
 
         try {
             const bookingDocs = await Booking.find({ user: id }).populate("place")
             res.json(bookingDocs)
         } catch (err) {
             console.log(err)
-            res.status(500).json("Deu erro ao buscar as reservas do usuário")
+            res.status(500).json("Deu erro ao buscar todas as reservas daquele usuário")
         }
     } catch (err) {
         console.log(err)
-        res.status(500).json("Erro ao verificar o token")
+        res.status(500).json("Deu erro ao validar o token do usuário")
     }
 })
 

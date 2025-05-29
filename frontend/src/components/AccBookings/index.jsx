@@ -7,9 +7,7 @@ export default () => {
 
     useEffect(() => {
         const axiosGet = async () => {
-            const { data } = await axios.get("/bookings/owner,", {
-                withCredentials: true
-            })
+            const { data } = await axios.get("/bookings/owner,")
             setBookings(data)
         }
 
