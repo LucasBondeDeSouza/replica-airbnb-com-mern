@@ -16,7 +16,6 @@ app.use(cookieParser())
 app.use(cors({
     origin: 'https://hashbnb.vercel.app',
     credentials: true,
-    sameSite: "None"
 }))
 
 app.use("/tmp", express.static(__dirname + '/tmp'))
