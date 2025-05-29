@@ -32,18 +32,20 @@ export default () => {
                     {places.map(place => (
                         <Link 
                             to={`/account/places/new/${place._id}`} 
-                            className="bg-gray-100 rounded-2xl p-6 flex items-center gap-6"
+                            className="bg-gray-100 rounded-2xl p-6 flex flex-col sm:flex-row items-center gap-6"
                             key={place._id}
                         >
                             <img 
-                                className="max-w-56 object-center aspect-square rounded-2xl" 
+                                className="w-full h-56 sm:max-w-56 object-center aspect-square rounded-2xl" 
                                 src={place.photos[0]} 
                                 alt="Foto da Acomodação" 
                             />
 
                             <div className="flex flex-col gap-2">
                                 <p className="text-2xl font-medium">{place.title}</p>
-                                <p>{place.description}</p>
+                                <p>
+                                    {place.description.length > 500 ? place.description.slice(0, 500) + '...' : place.description}
+                                </p>
                             </div>
                         </Link>
                     ))}
