@@ -10,7 +10,9 @@ export default () => {
 
     useEffect(() => {
         const axiosGet = async () => {
-            const { data } = await axios.get("/places/owner") 
+            const { data } = await axios.get("/places/owner", {
+                withCredentials: true
+            }) 
             setPlaces(data)
         }
 
