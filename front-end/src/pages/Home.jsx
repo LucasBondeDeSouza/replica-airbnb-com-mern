@@ -20,9 +20,6 @@ export default () => {
                 {places.map((place) => (
                     <Item {...{ place }} key={place._id} />
                 ))}
-                {places.map((place) => (
-                    <Item {...{ place }} key={place._id} />
-                ))}
             </div>
         </section>
     );
