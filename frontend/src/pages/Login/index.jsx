@@ -16,8 +16,6 @@ export default () => {
             try {
                 const { data: userDoc } = await axios.post('/users/login', {
                     email, password
-                }, {
-                    withCredentials: true
                 })
                 setUser(userDoc)
                 setRedirect(true)
