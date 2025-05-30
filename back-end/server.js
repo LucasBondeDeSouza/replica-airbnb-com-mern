@@ -14,14 +14,15 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "https://hashbnb.vercel.app",
+    origin: "http://localhost:5173",
     credentials: true,
   })
 );
-/*app.use("/tmp", express.static(__dirname + "/tmp"));*/
-/*app.use(express.static(path.join(__dirname, "../front-end/dist")));*/
+
+app.use("/tmp", express.static(__dirname + "/tmp"));
+app.use(express.static(path.join(__dirname, "../front-end/dist")));
 app.use("/api", routes);
 
-/*app.get("*", (req, res) => {
+app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../front-end/dist/index.html"));
-});*/
+});
