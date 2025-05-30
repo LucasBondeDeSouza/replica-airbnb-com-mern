@@ -14,7 +14,7 @@ import NotFound from './pages/NotFound';
 axios.defaults.baseURL = 
   import.meta.env.MODE === 'development'
     ? "http://localhost:3000/api"
-    : "http://localhost:3000/api"
+    : "https://airbnb-clone-y322.onrender.com/api"
 
 axios.defaults.withCredentials = true
 
