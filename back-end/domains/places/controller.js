@@ -18,7 +18,7 @@ const getExtension = (path) => {
 
 export const sendToS3 = async (filename, path, mimetype) => {
   const client = new S3Client({
-    region: "us-east-2",
+    region: "us-east-1",
     credentials: {
       accessKeyId: S3_ACCESS_KEY,
       secretAccessKey: S3_SECRET_KEY,
@@ -36,7 +36,7 @@ export const sendToS3 = async (filename, path, mimetype) => {
   try {
     await client.send(command);
 
-    return `https://${BUCKET}.s3.us-east-2.amazonaws.com/${filename}`;
+    return `https://${BUCKET}.s3.us-east-1.amazonaws.com/${filename}`;
   } catch (error) {
     throw error;
   }
